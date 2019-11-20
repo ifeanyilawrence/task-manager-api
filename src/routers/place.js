@@ -31,10 +31,10 @@ router.get('/places', async (req, res) => {
 });
 
 router.get('/places/:id', async (req, res) => {
-    const key = req.params.id;
+    const _id = req.params.id;
 
     try {
-        const place = await Place.findOne({ key });
+        const place = await Place.findOne({ _id });
 
         if (!place) {
             return res.status(404).send('Place not found!');
@@ -72,7 +72,7 @@ router.get('/places/:id', async (req, res) => {
 
 router.delete('/places/:id', async (req, res) => {
     try {
-        const place = await Place.findOneAndDelete({ key: req.params.id });
+        const place = await Place.findOneAndDelete({ _id: req.params.id });
 
         if (!place) {
             return res.status(404).send({error: 'Place not found!'});
