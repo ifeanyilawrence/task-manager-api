@@ -8,17 +8,17 @@ const placeRouter = require('./routers/place');
 
 const app = express();
 
-var publicDirCheck = '../public';
+// var publicDirCheck = '../public';
 
-var uploadDirCheck = '../public/uploads';
+// var uploadDirCheck = '../public/uploads';
 
-if (!fs.existsSync(publicDirCheck)){
-    fs.mkdirSync(publicDirCheck);
-}
+// if (!fs.existsSync(publicDirCheck)){
+//     fs.mkdirSync(publicDirCheck);
+// }
 
-if (!fs.existsSync(uploadDirCheck)){
-    fs.mkdirSync(uploadDirCheck);
-}
+// if (!fs.existsSync(uploadDirCheck)){
+//     fs.mkdirSync(uploadDirCheck);
+// }
 
 
 const publicDir = path.join(__dirname, '../public');
