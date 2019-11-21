@@ -9,6 +9,7 @@ const placeRouter = require('./routers/place');
 const app = express();
 
 var publicDirCheck = '../public';
+
 var uploadDirCheck = '../public/uploads';
 
 if (!fs.existsSync(publicDirCheck)){
