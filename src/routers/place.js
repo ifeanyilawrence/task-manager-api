@@ -97,15 +97,14 @@ const upload = multer({ storage: storage, limits: { fileSize:5000000 }, fileFilt
 
 router.post('/places/fileupload', upload.single('image'), (req, res) => {
     try {
-
         if (req.fileValidationError) {
             return res.send(req.fileValidationError);
         }
         else if (!req.file) {
-            return res.send('Please select an image to upload');
+            return res.send({ error: 'Please select an image to upload' });
         }
 
-        res.send(req.hostname + '/' + req.file.path.split("/")[1] + '/' + req.file.path.split("/")[2]);
+        res.send({ url: req.hostname + '/' + req.file.path.split("/")[1] + '/' + req.file.path.split("/")[2] });
     } catch (error) {
         res.status(400).send(error);
     }
