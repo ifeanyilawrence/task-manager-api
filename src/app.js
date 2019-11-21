@@ -30,8 +30,8 @@ app.use(userRouter);
 app.use(taskRouter);
 app.use(placeRouter);
 
-app.get('', (req, res) => {
-    return res.send("API is live!");
-});
+// app.get('', (req, res) => {
+//     return res.send("API is live!");
+// });
 
 module.exports = app;
