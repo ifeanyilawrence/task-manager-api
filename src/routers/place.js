@@ -4,10 +4,9 @@ const router = new express.Router();
 const multer = require('multer');
 const sharp = require('sharp');
 const path = require('path');
-//const auth = require('../middleware/auth');
+const auth = require('../middleware/auth');
 
-router.post('/places', async (req, res) => {
-    console.log("Got here!");
+router.post('/places', auth, async (req, res) => {
     const place = new Place({
         ...req.body
     });
@@ -16,35 +15,35 @@ router.post('/places', async (req, res) => {
         await place.save();
         res.status(201).send(place);
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send({ error });
     }
 });
 
 //GET /tasks?completed=true => filtering
 //GET /tasks?limit=10&skip=10 => pagination
 //GET /tasks?sortBy=createdAt:desc
-router.get('/places', async (req, res) => {
+router.get('/places', auth, async (req, res) => {
 
     try {
         places = await Place.find({});
         res.send(places);
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send({ error });
     }
 });
 
-router.get('/places/:id', async (req, res) => {
+router.get('/places/:id', auth, async (req, res) => {
     const _id = req.params.id;
 
     try {
         const place = await Place.findOne({ _id });
 
         if (!place) {
-            return res.status(404).send('Place not found!');
+            return res.status(404).send({ error: 'Place not found!' });
         }
         res.send(place);
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send({ error });
     }
 });
 
@@ -95,10 +94,10 @@ let storage = multer.diskStorage({
 
 const upload = multer({ storage: storage, limits: { fileSize:5000000 }, fileFilter: imageFilter });
 
-router.post('/places/fileupload', upload.single('image'), (req, res) => {
+router.post('/places/fileupload', auth, upload.single('image'), (req, res) => {
     try {
         if (req.fileValidationError) {
-            return res.send(req.fileValidationError);
+            return res.send({ error: req.fileValidationError });
         }
         else if (!req.file) {
             return res.send({ error: 'Please select an image to upload' });
@@ -106,11 +105,11 @@ router.post('/places/fileupload', upload.single('image'), (req, res) => {
 
         res.send({ url: req.hostname + '/' + req.file.path.split("/")[1] + '/' + req.file.path.split("/")[2] });
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send({ error });
     }
 });
 
-router.delete('/places/:id', async (req, res) => {
+router.delete('/places/:id', auth, async (req, res) => {
     try {
         const place = await Place.findOneAndDelete({ _id: req.params.id });
 
@@ -119,7 +118,7 @@ router.delete('/places/:id', async (req, res) => {
         }
         res.send(place);
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send({ error });
     }
 })
 
