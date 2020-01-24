@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 require('./db/mongoose');
@@ -20,6 +21,7 @@ const app = express();
 //     fs.mkdirSync(uploadDirCheck);
 // }
 
+app.use(cors());
 
 const publicDir = path.join(__dirname, '../public');
 
